@@ -1,0 +1,201 @@
+import java.util.*;
+import java.util.Scanner;
+import java.io.*;
+class Simulation {
+	public static void main(String[] args) throws IOException{
+		try { 
+			if (args.length != 1) {
+				System.out.println("Usage: Simultation <input file>");
+				System.exit(1);
+			}
+			Scanner in = new Scanner(new File(args[0]));
+			PrintWriter rep = new PrintWriter(new FileWriter(args[0] + ".rpt"));
+			PrintWriter trace = new PrintWriter(new FileWriter(args[0] + ".trc"));
+			}
+		catch(FileNotFoundException e) {
+			System.out.println(e);
+			System.exit(1);
+		}	
+		Scanner in = new Scanner(new File(args[0]));
+		PrintWriter rep = new PrintWriter(new FileWriter(args[0] + ".rpt"));
+		PrintWriter trace = new PrintWriter(new FileWriter(args[0] + ".trc"));
+		Queue jobList = new Queue();
+		Queue finishedJobs = new Queue();
+		ArrayList<Integer> input = new ArrayList();
+		while(in.hasNextInt()){
+			input.add(in.nextInt());
+		}
+		
+		int numJobs = input.get(0);
+		for(int i = 1; i < input.size(); i++){
+			if(i%2 == 0){
+				Job x = new Job(input.get(i - 1), input.get(i));
+				jobList.enqueue(x);
+			}
+		}
+		
+		rep.println("Report file: " + args[0] + ".rpt");
+		rep.println(numJobs + "Jobs: ");
+		rep.println(jobList);
+		rep.println();
+		rep.println("***********************************************************");
+		trace.println("Trace file: " + args[0] + ".trc");
+		trace.println(numJobs + "Jobs: ");
+		trace.println(jobList);
+		trace.println("***********************************************************");
+		System.out.println("How many processors do you want");
+		int numProcessors = numJobs - 1;
+		for(int i = 1; i <= numProcessors; i++){
+			finishedJobs = processor(jobList, i, numJobs, trace);
+			calcWait(finishedJobs, rep, i);
+			}
+		in.close();
+		rep.close();
+		trace.close();
+		
+	}
+	
+	
+	public static Queue processor(Queue jobs, int numProcessors, int numJobs, PrintWriter trace){
+		// array of queues to store all the processor queues and queues with jobs to processed
+		// and finished queues
+		Queue[] storage = new Queue[20];
+		int time = 0;
+		// variable to store the current job and next job and length of smallest processor queue
+		Job jobc, jobn;
+		int leastLen=1, leastInd = 0;
+		int lstp = numProcessors, lstf = numProcessors + 1;
+		// adds numProcessors number of processor queues to the begining of storage array
+		for(int i=0; i < numProcessors; i++){
+			storage[i] = new Queue();
+		}
+		// makes the first queue after the processor queues in storage equal to a copy of 
+		// the jobs to be processed
+		storage[lstp] = jobs.makeCopy();
+		// last queue in array is queue with all finished jobs
+		storage[lstf] = new Queue();
+		// we know we are done with processing when all jobs are in finished job queue
+		while(storage[lstf].length() != numJobs){
+			// if time equals 0, then print initial state of processing
+			if(time == 0){
+				printTrace(time, storage, numProcessors, trace);
+			}
+			
+			time++;
+			
+			// if there are still jobs to be processed in the waiting queue in storage[lstp]
+			// then change jobc to be the first job in the queue and check for jobs with the 
+			// same arrival times
+			if(storage[lstp].length() != 0){
+				// sets jobc equal to next job in processing list
+				jobc = (Job)storage[lstp].peek();
+				
+				// if the arrival time of jobc is equal to the current time then
+				if(jobc.getArrival() == time){
+					// for loop to check length of all processor queues and find the index of queue
+					// with the least length in order to place the next job with same arrival time there
+					for(int i = 0; i < numProcessors; i++){
+						if(storage[i].length() < leastLen){
+							leastLen = storage[i].length();
+							leastInd = i;
+						}
+					}
+					storage[leastInd].enqueue(storage[lstp].dequeue());
+				}
+				
+				if(storage[lstp].length() != 0 ){	
+					// while loop to check jobs with same arrival times
+					Job f = (Job)storage[lstp].peek();
+					while(f.getArrival() == time){
+
+						// for loop to check length of all processor queues and find the index of queue
+						// with the least length in order to place the next job with same arrival time there
+						for(int i = 0; i < numProcessors; i++){
+							if(storage[i].length() < leastLen){
+								leastLen = storage[i].length();
+								leastInd = i;
+							}
+						}
+						// dequeue next job with same arrival from storage[lstp] and enqueueu it into processor
+						// of least length
+						storage[leastInd].enqueue(storage[lstp].dequeue());
+						// if there are still jobs to be processed in the waiting jobs list, change f to be the 
+						// next job in order to check if it has the same arrival time as the previous job. 
+						if(storage[lstp].length() != 0) f = (Job)storage[lstp].peek();
+						// otherwise break out of the while loop. 
+						else break;
+					}
+					
+				}
+			}
+			
+			
+			
+			// goes through each processor queue and checks the first item. if the first
+			// items arrival time is the same as the current time than you can calculate
+			// finish time. 
+			for(int i = 0; i < numProcessors; i++){
+				Job d = (Job)storage[i].peek();
+				if(d.getArrival() == time){
+					d.computeFinishTime(time);
+				}
+			}
+			
+			// goes through each processor queue and checks if the finish time of the first
+			// items is equal to the current time, if so it enqueues that job to storage[lstf]
+			// where all the finished jobs are going to be enqueued
+			for(int i = 0; i < numProcessors; i++){
+				Job h = (Job)storage[i].peek();
+				if(h.getFinish() == time){
+					storage[lstf].enqueue(storage[i].dequeue());
+			}
+		}
+		
+		// reset leastInd and leastLen
+		leastLen = storage[0].length();
+		leastInd = 0;
+		for(int i=0; i < numProcessors; i++){
+			if(storage[i].length() < leastLen){
+				leastLen = storage[i].length();
+				leastInd = i;
+			}
+		}
+		
+		// print the current state of processing
+		printTrace(time, storage, numProcessors, trace);
+	}
+
+	return((Queue)storage[lstf]);
+	}
+	
+	
+	
+	
+	public static void printTrace(int time, Queue[] storage, int processors, PrintWriter trace){
+		int lstp = processors, lstf = processors + 1;
+		trace.println("time = " + time);
+		trace.println("0: " + storage[lstp] + " " + storage[lstf]);
+		for(int i=0; i < processors; i++){
+			trace.println(i + 1 + ": " + storage[i]);
+		}
+	}
+	
+	public static void calcWait(Queue finJobs, PrintWriter report, int processors){
+		// new queue temp made so that don't mess with finJobs
+		Queue temp = finJobs.makeCopy();
+		double totalWait = 0, maxWait = 0, avgWait, waitTime, jobs = 0;
+		Job jobc;
+		double[] data;
+		while(temp != null){
+			jobs++;
+			jobc = (Job)temp.dequeue();
+			waitTime = jobc.getWaitTime();
+			totalWait += waitTime;
+			if(waitTime > maxWait) maxWait = waitTime;
+		}
+		avgWait = totalWait / jobs;
+
+		report.println(processors + "processor: totalWait=" + totalWait + ", maxWait=" + maxWait + ", averageWait=" + avgWait);
+		}
+	
+}

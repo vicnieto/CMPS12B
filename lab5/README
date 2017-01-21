@@ -1,0 +1,11 @@
+# Victor Nieto; vnieto; 12M
+Files Submitted:
+Dictionary.o
+Dictionary.c
+Dictionary.h
+DictionaryClient.o
+DictionaryClient.c 
+DictionaryTest.c
+Makefile
+README
+

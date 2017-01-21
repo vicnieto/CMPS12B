@@ -1,0 +1,15 @@
+#victor; vnieto; 12M;
+Files being submited:
+README
+Makefile
+HelloUser.java
+HelloUser2.java
+private
+HelloUser
+HelloUser2
+
+Notes to grader:
+I wasn't sure if we were supposed to submit the 
+executable files that are a result of the make
+-file so I added them anyway. 
+
