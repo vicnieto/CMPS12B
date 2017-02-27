@@ -8,8 +8,8 @@ private
 HelloUser
 HelloUser2
 
-Notes to grader:
-I wasn't sure if we were supposed to submit the 
-executable files that are a result of the make
--file so I added them anyway. 
-
+Description:
+Use what you've learned in this project to write a Makefile that creates and archives both
+.class files (HelloUser.class and HelloUser2.class) in an executable jar file called Hello that runs
+function main() from HelloUser2.class. It should also include a clean utility, as in the above
+examples.

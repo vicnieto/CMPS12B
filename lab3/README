@@ -4,3 +4,31 @@ Files submitted:
 makefile
 fileReverse.c
 in
+
+Description:
+Write a C program called FileReverse.c that behaves exactly like the program FileReverse.java that
+you wrote in lab 2. Thus FileReverse.c will take two command line arguments naming the input and output
+files respectively (following the FileIO.c example above.) Your program will read each word in the input
+file, then print it backwards on a line by itself. For example given a file called in containing the lines:
+abc def ghij
+klm nopq rstuv
+w xyz
+the command % FileReverse in out will create a file called out containing the lines:
+cba
+fed
+jihg
+mlk
+qpon
+vutsr
+w
+zyx
+Your program will contain a function called stringReverse() with the heading
+9
+void stringReverse(char* s)
+which reverses its string argument. Place the definition of this function after all preprocessor directives but
+before the function main(). Your main function will be almost identical to FileIO.c above, except that the
+while loop will contain a call to stringReverse(word). Although it is possible to write stringReverse()
+as a recursive function, it is not recommended that you do so unless you are very familiar with C strings and the
+string handling functions in the standard library string.h. Instead it is recommended that you implement a
+simple iterative algorithm to reverse the string s (see below).
+Write a Makefile that creates an executable binary file called FileReverse, and includes a clean utility. 

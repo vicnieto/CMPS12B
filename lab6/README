@@ -9,3 +9,20 @@ ListClient.java
 ListTest.java
 ListIndexOutOfBoundsException.java
 
+Description:
+Convert the IntegerList ADT on the course webpage from a List of ints to a List-of-anything using Java
+Generics. Use as starting point either the Linked List version or the Array Doubling version, both found on
+the course website under Examples/Lecture/IntegerListADT/. Your new generic type will be called simply
+List and will be defined in a file called List.java. Your List class will implement a generic List interface 
+5
+defined in the file ListInterface.java also found on the webpage under Examples/Labs/lab6/. Test your
+List by writing a file called ListTest.java that exercises all ADT operations. The same directory contains
+files ListIndexOutOfBoundsException.java, ListClient.java, Makefile and model-out.
+The Makefile makes the executable jar file ListClient which should produce output identical to the
+contents of model-out, provided that your List ADT works properly. Notice that the exception class
+contains another annotation @SuppressWarnings("serial"), without which you would receive warnings
+under -Xlint about the lack of a serialVersionUID definition. It seems a hassle to deal with all of these
+warnings regarding aspects of Java that we have not studied, and it is tempting to just drop use of the -Xlint
+compiler flag to get rid of them. This is not recommended however, since warnings are our first line of
+defense against logical problems in our code. You may alter the provided Makefile, but the one you turn in
+must include the -Xlint flag when compiling Java sources. 

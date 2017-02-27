@@ -9,3 +9,35 @@ DictionaryTest.c
 Makefile
 README
 
+Description:
+Study the unabridged version of the IntegerStack ADT on the webpage. It is recommended that you use it as
+a starting point for your Dictionary ADT in C. The Dictionary in this assignment is largely the same that in
+pa3, so re-familiarize yourself with the specifications for that assignment. As before the elements of the
+Dictionary will be pairs of strings called key and value respectively. Recall however that strings in C are
+represented by a null ('\0') terminated char array, rather than a built in data type as in Java. The C
+standard library string.h provides functions for operating on these primitive strings. See documentation
+for string.h at
+http://www.acm.uiuc.edu/webmonkeys/book/c_guide/
+and at
+http://en.cppreference.com/w/c/string/byte
+to learn about these functions, paying special attention to strcmp(), strcpy(), and strlen(). Function
+strcmp() is of particular importance in this assignment since it provides a simple way to tell if two strings
+are equal. Specifically, the expression strcmp(str1, str2)==0 returns true (=1) if the char array
+pointed to by str1 is the same sequence as that pointed to by str2, and false (=0) otherwise. Use this fact
+when writing the private function findKey().
+The Node type for the underlying linked list should contain two data fields, each of type char*, representing
+the two strings key and value. The ADT operations are identical to those in pa3, except of course that certain
+return types and formal parameters are now char* rather than String. One other difference is that you
+must write a destructor for the Dictionary ADT, where none was necessary in pa3. You will also write a
+function called printDictionary() replacing the Java toString() method. Its output should be
+formatted to look exactly like that of toString().
+The interface for the Dictionary ADT is embodied in the file Dictionary.h posted on the webpage. A
+test client called DictionaryClient.c is also included. Submit both of these files unaltered with your
+project. The webpage also contains a Makefile for the Stack ADT. Alter this Makefile to make the
+executable DictionaryClient from the source DictionaryClient.c. (Just replace "IntegerStack"
+everywhere it is found with "Dictionary".) Compare the output of DictionaryClient with the file
+DictionaryClientOut. Note that this test client and its output are provided as a convenience to you and
+should not be deemed to certify your Dictionary.c as error free. For that you will need to construct your
+own tests in a file called DictionaryTest.c which you will also submit. Note that the Makefile provided
+includes clean and check utilities which you should leave in place. Do make clean to delete old binaries
+and make check to check your Dictionary.c for memory leaks. 

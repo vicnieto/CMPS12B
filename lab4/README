@@ -6,6 +6,54 @@ charType.c
 makefile 
 in
 
-Note:
-First time around I didn't use git add to submit my assignments. I didn't know wer were supposed to use git add. I've done it now.
-
+Description:
+Write a C program called charType.c that takes two command line arguments giving the input and output
+file names respectively, then classifies the characters on each line of the input file into the following
+categories: alphabetic characters (upper or lower case), numeric characters (digits 0-9), punctuation, and
+white space (space, tab, or newline). Any characters on a given line of the input file that cannot be placed
+into one of these four categories (such as control or non-printable characters) will be ignored. Your program
+will print a report to the output file for each line in the input file giving the number of characters of each
+type, and the characters themselves. For instance if in is a file containing the four lines:
+abc h63 8ur-)(*&yhq!~ `xbv
+JKL*()#$$%345~!@? ><mnb
+afst ey64 YDNC&
+hfdjs9*&^^%$tre":L
+then upon doing % charType in out, the file out will contain the lines:
+line 1 contains:
+12 alphabetic characters: abchuryhqxbv
+3 numeric characters: 638
+8 punctuation characters: -)(*&!~`
+5 whitespace characters:
+line 2 contains:
+6 alphabetic characters: JKLmnb
+3 numeric characters: 345
+13 punctuation characters: *()#$$%~!@?><
+2 whitespace characters:
+line 3 contains:
+10 alphabetic characters: afsteyYDNC
+2 numeric characters: 64
+1 punctuation character: &
+6 whitespace characters:
+line 4 contains:
+9 alphabetic characters: hfdjstreL
+1 numeric character: 9
+8 punctuation characters: *&^^%$":
+1 whitespace character:
+Notice that in these reports the word "character" is appropriately singular or plural. Your program will
+contain a function called extract_chars with the prototype
+void extract_chars(char* s, char* a, char* d, char* p, char* w);
+that takes the input string s, and copies its characters into the appropriate output character arrays a
+(alphabetic), d (digits), p (punctuation), or w (whitespace). The output arrays will each be terminated by the
+null character '\0', making them into valid C strings. Function main will call extract_chars on array 
+6
+arguments that have been allocated from heap memory using either malloc or calloc. Before your program
+terminates it will free all allocated heap memory using free. It is suggested that you take the example
+program alphaNum.c as a starting point for your charType.c program, since much of what you need to do is
+illustrated there. When your program is complete, test it on various input files, including its own source file.
+Check your program for memory leaks by using the unix program valgrind. Do
+% valgrind --leak-check=full charType infile outfile
+to run valgrind on your program. Do % valgrind –help to see some of the options to valgrind, and see
+the man pages for further details. Write a Makefile that creates an executable binary file called charType
+and includes a clean utility. Also include a target called check in your Makefile which runs valgrind on
+your executable as above, taking infile to be the source file charType.c itself. Use the Makefile from lab3
+as a starting point.

@@ -8,3 +8,22 @@ DictionaryInterface.java
 DictionaryClient.java
 DuplicateKeyException.java
 KeyNotFoundException.java
+
+Description:
+Your goal in this project will be to translate the Binary Search Tree (BST) based Dictionary in C, posted
+on the webpage, into Java. The files
+DictionaryInterface.java
+DuplicateKeyException.java
+KeyNotFoundException.java
+DictionaryClient.java
+are provided in the examples section of the webpage, and should be submitted unchanged with this
+project. The file model-out contains the correct output of the program DictionaryClient.java.
+You are to write the implementation file Dictionary.java and submit it with the above files, along
+with a Makefile that creates an executable Jar file called DictionaryClient. Note that although you
+should test your ADT operations independently as usual, you will not submit a file called
+DictionaryTest.java with this project.
+Dictionary.java will implement all operations in DictionaryInterface.java using a BST as the
+underlying data structure. Begin by studying the file Dictionary.c found on the webpage at
+Examples/Lecture/C_Programs/DictionaryADT/. Notice that the C version contains a number of private
+helper functions used by the ADT operations. It is strongly suggested that you write these same methods
+into your Java implementation, as private functions of course.

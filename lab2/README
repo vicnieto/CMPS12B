@@ -10,5 +10,33 @@ FileTokens.java
 FileCopy.java
 CommandLineArguments.java
 
-
-note:
+Description:
+Write a java program called FileReverse.java that takes two command line arguments giving the names
+of the input and output files respectively (following the preceding examples). Your program will read each
+line of input, parse the tokens, then print each token backwards to the output file on a line by itself. For
+example given a file called in containing the lines:
+abc defg
+hi
+jkl mnop q
+rstu v
+4
+wxyz
+the command %FileReverse in out will create a file called out containing the lines:
+cba
+gfed
+ih
+lkj
+ponm
+q
+utsr
+v
+zyxw
+Your program will contain a recursive method called stringReverse() with the following signature:
+public static String stringReverse(String s, int n)
+This function will return a String that is the reversal of the first n characters of s. Note that reversing a
+String recursively is very similar to reversing an array. Study the methods in the String class documented at
+http://docs.oracle.com/javase/7/docs/api/ to determine how this might be done. See especially the instance
+methods charAt() and substring(), as well as the static method valueOf(). Base your reversal
+strategy on one of the recursive methods reverseArray1() or reverseArray2() discussed in class, or
+on the methods of the same name in pa1. Use stringReverse() to perform the reversal of tokens from
+the input file. 
